@@ -1,9 +1,18 @@
-import Task from "../models/task.model.js";
+import mongoose from "mongoose"
+import Task from "../../../shared/models/task.model.js"
+import { enqueueTask } from "../queues/task.queue.js";
 
 // CREATE TASK
 export const createTask = async (req, res, next) => {
   try {
     const { title, inputText, operation } = req.body;
+
+    // Debugging
+    console.log("Default connection:", mongoose.connection.readyState);
+
+    console.log("Task model connection:", Task.db.readyState);
+
+    console.log("Same connection:", mongoose.connection === Task.db);
 
     const task = await Task.create({
       userId: req.user.userId,
@@ -172,3 +181,90 @@ export const updateTask = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
+
+
+
+
+// RUN TASK
+export const runTask = async (req, res, next) => {
+  try {
+    const task = await Task.findOne({
+      _id: req.params.id,
+      userId: req.user.userId,
+    });
+
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found.",
+      });
+    }
+
+    if (task.status !== "pending") {
+      return res.status(409).json({
+        success: false,
+        message: `Cannot run task with status: ${task.status}`,
+      });
+    }
+
+    // Push job to Redis
+    const job = await enqueueTask(task);
+
+    return res.status(202).json({
+      success: true,
+      message: "Task added to processing queue.",
+      taskId: task._id,
+      jobId: job.id,
+      status: "pending",
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

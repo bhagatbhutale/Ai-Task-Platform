@@ -9,6 +9,7 @@ import {
   getTaskById,
   updateTask,
   deleteTask,
+  runTask
 } from "../controllers/task.controller.js";
 
 import {
@@ -26,6 +27,8 @@ router.post("/", createTaskValidator, validate, createTask);
 router.get("/", getTasks);
 
 router.get("/:id", getTaskById);
+
+router.post("/:id/run", runTask);
 
 router.patch("/:id", updateTaskValidator, validate, updateTask);
 

@@ -1,6 +1,7 @@
 
 import express from "express";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
+import "dotenv/config";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -13,7 +14,7 @@ import taskRoutes from "./routes/task.routes.js";
 
 import errorHandler from "./middleware/error.middleware.js"
 
-dotenv.config();
+// dotenv.config();
 
 const app = express();
 
@@ -77,6 +78,7 @@ const startServer = async () => {
     await connectDB();
 
     const PORT = process.env.PORT || 5000;
+    // console.log("MongoDB readyState:", mongoose.connection.readyState);
 
     app.listen(PORT, () => {
       console.log(`Backend running on port ${PORT}`);
