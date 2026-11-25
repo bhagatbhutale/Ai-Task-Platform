@@ -1,13 +1,10 @@
 // import dotenv from "dotenv";
 // dotenv.config();
-
 import "dotenv/config";
-
 import { Worker } from "bullmq";
 
 import redisConnection from "./config/redis.js";
 import connectDB from "./config/db.js";
-// import Task from "../../../shared/models/task.model.js";
 
 import { executeTask } from "./services/task.service.js";
 

@@ -1,7 +1,4 @@
-// import Task from "../../../shared/models/task.model.js";
-
 import Task from "../../../shared/models/task.model.js";
-
 import processText from "../processors/task.processor.js";
 
 export const executeTask = async (job) => {
@@ -40,6 +37,9 @@ export const executeTask = async (job) => {
       },
     },
   });
+
+  // Example Demo for Delay Time Used 
+  await new Promise((resolve) => setTimeout(resolve, 9000));
 
   try {
     const result = processText(task.inputText, task.operation);

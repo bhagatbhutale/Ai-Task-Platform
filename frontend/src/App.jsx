@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/authContext";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    <h1>Hello Ai Task Processing Frontend</h1>
-    </>
-  )
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
